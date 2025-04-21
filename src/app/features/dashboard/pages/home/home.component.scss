@@ -1,0 +1,113 @@
+.header-title {
+  color: #245aa6;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.select-module {
+  width: 300px;
+}
+
+.my-3 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 500px) {
+  .header-title {
+    display: none;
+  }
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.row {
+  --bs-gutter-x: 0;
+  --bs-gutter-y: 0;
+}
+
+hr {
+  border-top-color: #1615151c;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.responsive-sub-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-button-danger {
+  color: #dc3545;
+}
+
+.mat-button-danger:hover {
+  color: #c82333;
+}
+
+.mat-button-success {
+  color: #28a745;
+}
+
+.mat-button-success:hover {
+  color: #1e7e34;
+}
+
+.div-task {
+  width: 45%;
+  margin: 5px;
+  border: 1px solid #a9a3a3;
+  padding: 5px;
+  font-size: 12px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.task-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.responsive-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;  
+}
+
+.responsive-container>mat-card {
+  flex-basis: calc(50% - 16px);
+  max-width: calc(50% - 16px);
+  margin-right: 8px;
+  margin-left: 8px;
+  margin-bottom: 16px;
+}
+
+/* Para pantallas pequeñas (mobile) - Define el punto de quiebre según necesites */
+@media (max-width: 500px) {
+  .responsive-container {
+    flex-direction: column;
+    width: 100%;
+    /* Dispone los elementos en una columna (verticalmente) */
+  }
+
+  .responsive-container>mat-card {
+    flex-basis: calc(100% - 10px);
+    max-width: calc(100% - 10px);
+    margin-right: 0;
+    width: 100%;
+  }
+}

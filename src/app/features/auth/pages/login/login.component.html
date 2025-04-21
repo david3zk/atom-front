@@ -1,0 +1,72 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-content>
+      <mat-card-title>
+        <div class="logo-container">
+          <img src="assets/images/logo.png" alt="Logo" class="logo">
+        </div>
+        Iniciar Sesión
+      </mat-card-title>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit(modalRegistrarUsuario)">
+        <mat-form-field appearance="outline" class="full-width mb-2">
+          <mat-label>Correo electrónico</mat-label>
+          <input matInput placeholder="ejemplo@correo.com" type="email" formControlName="email" required>
+          <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
+            El correo electrónico es requerido.
+          </mat-error>
+          <mat-error *ngIf="loginForm.controls['email'].hasError('email')">
+            Por favor, introduce un correo electrónico válido.
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="full-width" [disabled]="loading">
+          <div [ngClass]="{'spinner':loading}"></div>
+          Ingresar
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<ng-template #modalRegistrarUsuario>
+  <h2 mat-dialog-title>Crear nuevo Usuario</h2>
+  <mat-dialog-content>
+    <form [formGroup]="registerForm" class="register-form">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput type="email" formControlName="email" required>
+        <mat-error *ngIf="registerForm.controls['email'].hasError('required')">
+          El correo electrónico es requerido.
+        </mat-error>
+        <mat-error *ngIf="registerForm.controls['email'].hasError('email')">
+          Por favor, introduce un correo electrónico válido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Nombres</mat-label>
+        <input matInput type="text" formControlName="nombres" required>
+        <mat-error *ngIf="registerForm.controls['nombres'].hasError('required')">
+          Los nombres son requeridos.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width my-3">
+        <mat-label>Apellidos</mat-label>
+        <input matInput type="text" formControlName="apellidos" required>
+        <mat-error *ngIf="registerForm.controls['apellidos'].hasError('required')">
+          Los apellidos son requeridos.
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="registerForm.invalid || loading"
+      (click)="onRegisterClick()">
+      <div [ngClass]="{'spinner':loading}"></div>
+      Registrarse
+    </button>
+  </mat-dialog-actions>
+</ng-template>

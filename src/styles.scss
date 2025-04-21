@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.spinner {
+    background: url("/assets/images/spinner.svg") no-repeat;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    // margin-bottom: 0.13em;
+    // margin-right: 0.3em;
+}

@@ -1,0 +1,185 @@
+<mat-toolbar style="padding: 0px 20px;">
+  <div style="display: flex;">
+    <div>
+      <img src="../../../../../assets/images/logo.png" alt="ISP" style="width: 80px;">
+    </div>
+    <div class="header-title">
+      BIENVENIDO
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <button mat-stroked-button color="warn" style="margin-left: 20px;" (click)="logout()">
+    <mat-icon matSuffix>power_settings_new</mat-icon>
+    Salir
+  </button>
+</mat-toolbar>
+<div class="row my-3 w-100">
+  <div class="row my-3" style="margin-left: 8px;">
+    <button mat-raised-button color="primary" (click)="onOpenModal(modalRegistrarTarea);">
+      agregar nueva tarea
+    </button>
+  </div>
+  <div class="responsive-container">
+    <mat-card>
+      <div style="display: flex;flex-direction: column;">
+        <div class="row my-3 w-100" style="display: flex;justify-content: center">
+          <h4>Tareas Pendientes</h4>
+        </div>
+        <div class="row my-3 w-100">
+          <div class="responsive-sub-container">
+            <ng-container *ngIf="pendingTask$ | async as tasks; else loadingPending">
+              <ng-container *ngIf="tasks.length > 0; else noPending">
+                <div class="div-task" *ngFor="let task of tasks">
+                  <div class="row">
+                    <mat-checkbox [checked]="task.status === 'completed'"
+                      (change)="updateTaskStatus(task, $event.checked ? 'completed' : 'pending')">
+                    </mat-checkbox>
+                    <span>Marcar para completar</span>
+                  </div>
+                  <div class="row">
+                    <hr>
+                    <p style="text-align: center;">
+                      <span class="task-title">{{ task.title }}</span>
+                    </p>
+                    <hr>
+                    <p>
+                      <span>{{ task.description }}</span>
+                    </p>
+                    <hr>
+                  </div>
+                  <div class="row card-actions">
+                    <button mat-icon-button aria-label="Edit" class="mat-button-success"
+                      (click)="onOpenModalEdit(modalRegistrarTarea,task);">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button aria-label="Delete" class="mat-button-danger"
+                      (click)="onOpenModalConfirmEliminar(modalConfirmar,task);">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noPending>
+                <p>No hay tareas pendientes.</p>
+              </ng-template>
+            </ng-container>
+            <ng-template #loadingPending>
+              <p>Cargando ...</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card>
+      <div style="display: flex;flex-direction: column;">
+        <div class="row my-3 w-100" style="display: flex;justify-content: center">
+          <h4>Tareas Terminadas</h4>
+        </div>
+        <div class="row my-3 w-100">
+          <div class="responsive-sub-container">
+            <ng-container *ngIf="completeTask$ | async as tasks; else loadingCompleted">
+              <ng-container *ngIf="tasks.length > 0; else noCompleted">
+                <div class="div-task" *ngFor="let task of tasks">
+                  <div class="row">
+                    <mat-checkbox [checked]="task.status === 'completed'"
+                      (change)="updateTaskStatus(task, $event.checked ? 'completed' : 'pending')">
+                    </mat-checkbox>
+                    <span>Marcar para completar</span>
+                  </div>
+                  <div class="row">
+                    <hr>
+                    <p style="text-align: center;">
+                      <span class="task-title">{{ task.title }}</span>
+                    </p>
+                    <hr>
+                    <p>
+                      <span>{{ task.description }}</span>
+                    </p>
+                    <hr>
+                  </div>
+                  <div class="row card-actions">
+                    <button mat-icon-button aria-label="Edit" class="mat-button-success"
+                      (click)="onOpenModalEdit(modalRegistrarTarea,task);">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button aria-label="Delete" class="mat-button-danger"
+                    (click)="onOpenModalConfirmEliminar(modalConfirmar,task);">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noCompleted>
+                <p>No hay tareas Completadas.</p>
+              </ng-template>
+            </ng-container>
+            <ng-template #loadingCompleted>
+              <p>Cargando ...</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+
+<ng-template #modalRegistrarTarea>
+  <h2 mat-dialog-title>{{ title_modal}}</h2>
+  <mat-dialog-content>
+    <form [formGroup]="registerForm" class="register-form">
+      <mat-form-field appearance="outline" class="w-100 my-3">
+        <mat-label>Titulo</mat-label>
+        <input matInput type="text" formControlName="title" required>
+        <mat-error *ngIf="registerForm.controls['title'].hasError('required')">
+          El titulo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- <input matInput type="text" formControlName="description" required> -->
+      <mat-form-field appearance="outline" class="w-100 my-3">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="description" required></textarea>
+        <mat-error *ngIf="registerForm.controls['description'].hasError('required')">
+          la descripción es requerido.
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="registerForm.invalid || loading" (click)="onRegisterClick()">
+      <div [ngClass]="{'spinner':loading}"></div>
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #modalConfirmar>
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-md-12">
+        <strong>
+          <p>Confirmar</p>
+        </strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        ¿Esta seguro que desea <b>eliminar</b> la tarea: {{taskOperacion?.title}}?
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions style="border-top: 1px solid #eee;">
+    <div class="row w-100">
+      <div class="d-flex justify-content-between">
+        <button mat-stroked-button color="primary" style="min-width: 120px !important;"
+          mat-dialog-close>Cancelar</button>
+        <button mat-raised-button color="primary" style="min-width: 120px !important;" (click)="onEliminarTarea()">
+          <div [ngClass]="{'spinner':loading}"></div>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</ng-template>
